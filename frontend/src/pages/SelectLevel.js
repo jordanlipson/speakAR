@@ -139,6 +139,7 @@ const ButtonContainer = styled.div`
   width: 100%;
 `;
 
+
 const SelectLevel = () => {
   const navigate = useNavigate();
 
@@ -148,6 +149,28 @@ const SelectLevel = () => {
     const levelIndex = event.target.value;
     setLevel(proficiencyLevels[levelIndex]);
   };
+
+  async function sendLevel() {
+    let headersList = {
+      "Accept": "*/*",
+      // "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+      "Content-Type": "application/json"
+    }
+
+    console.log(level.level)
+    let bodyContent = JSON.stringify({ "level": level.level });
+
+    let response = await fetch("http://127.0.0.1:5000/setlevel/", {
+      method: "POST",
+      body: bodyContent,
+      headers: headersList
+    });
+
+    let data = await response.text();
+    console.log(data);
+
+    navigate("/home")
+  }
 
   return (
     <div>
@@ -168,7 +191,7 @@ const SelectLevel = () => {
         </LabelContainer>
       </SelectLevelContainer>
       <ButtonContainer>
-        <Button onClick={() => navigate("/home")}>NEXT</Button>
+        <Button onClick={sendLevel}>NEXT</Button>
       </ButtonContainer>
     </div>
   );

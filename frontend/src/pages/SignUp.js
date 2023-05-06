@@ -26,6 +26,7 @@ const Button = styled.button`
     background: white;
     color: #394B60;
     font-size: 15px;
+    font-weight: bold;
     margin-top: 4em;
 `
 
