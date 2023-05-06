@@ -73,6 +73,26 @@ def set_level():
         return {'success': False, 'error': e}
 
 
+@app.route('/setlang/', methods=['POST'])
+def set_lang():
+    try:
+        data = request.get_json()
+        language = data.get('language')
+        SESSION['language'] = language
+
+        query = {"username": SESSION['username']}
+        new_values = {"$set": {"language": language }}
+        print(new_values)
+        db.users.update_one(query, new_values)  
+
+        return {'success': True, 'error': None}
+    
+    except Exception as e:
+        print(e)
+        return {'success': False, 'error': e} 
+
+
+
 @app.route('/login/', methods=['POST'])
 def login():
 
@@ -100,11 +120,15 @@ def login():
         print(e)
         return {'success': False, 'error': e}
 
+
 @app.route('/chat/', methods=['POST'])
 def chat():
     try:
         data = request.get_json()
         message = data.get('message')
+
+        store_error(message)
+
         existing_user = db.users.find_one({'username': SESSION['username']})
         conversation = existing_user['conversation']
         print(conversation)
@@ -163,5 +187,37 @@ def chat():
         return {'success': False, 'error': e, 'reply': None, 'language': SESSION['language']}
 
 
+
+def store_error(msg):
+
+    prompt = f'''<<DESCRIPTION>>
+                This is a {SESSION['language']} language grammar check generator that corrects a given text. If the text is already grammatically 
+                correct, the grammar checker just returns the original message. 
+                <<ENGLISH EXAMPLE>>
+                Sample: I is Bob.
+                Correction: I am Bob.
+                <<ENGLISH EXAMPLE>>
+                Sample: I am Bob.
+                Correction: I am Bob.
+                ------
+                Sample: {msg}
+                Correction:'''
+    
+
+    response = co.generate(model='base',
+                           prompt=prompt,
+                           temperature=0.3,
+                           p=0.75,
+                           k=0,
+                           frequency_penalty=0,
+                           presence_penalty=0,
+                           stop_sequences=["--"])
+    return response[0][:]
+
+
 if __name__ == '__main__':
-    app.run()
+    # app.run()
+    r = input('Enter: ')
+    while r != 'stop':
+        print(store_error(r))
+        r = input('Enter: ')
