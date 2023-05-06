@@ -54,6 +54,8 @@ const ChooseLang = () => {
     }
 
     async function sendLang() {
+        setShowNextButton(false);
+        console.log('got here')
         let headersList = {
             "Accept": "*/*",
             "Content-Type": "application/json"
@@ -73,6 +75,10 @@ const ChooseLang = () => {
         navigate("/selectlevel")
     }
 
+    const buttonStyle = {
+        visibility: showNextButton ? 'visible' : 'hidden',
+    };
+
     return (
         <div>
             <ChooseLangContainer>
@@ -80,7 +86,7 @@ const ChooseLang = () => {
                 <LangButton selected={selectedLang === 'English'} onClick={() => handleLangClick('English')}>English</LangButton>
                 <LangButton selected={selectedLang === 'Français'} onClick={() => handleLangClick('Français')}>Français</LangButton>
                 <LangButton selected={selectedLang === 'Español'} onClick={() => handleLangClick('Español')}>Español</LangButton>
-                {showNextButton && <NextButton onClick={sendLang}>NEXT</NextButton>}
+                <NextButton style={buttonStyle} onClick={sendLang}>NEXT</NextButton>
             </ChooseLangContainer>
         </div>
     )
