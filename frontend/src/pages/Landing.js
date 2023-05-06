@@ -49,6 +49,7 @@ const SignInButton = styled.button`
     background: white;
     color: #394B60;
     font-size: 15px;
+    font-weight: bold;
 `;
 
 const SignUpButton = styled.button`
@@ -59,6 +60,7 @@ const SignUpButton = styled.button`
     background: transparent;
     color: white;
     font-size: 15px;
+    font-weight: bold;
 `;
 
 const Landing = () => {
