@@ -156,11 +156,11 @@ def chat():
         new_values = {"$set": {"conversation": conversation }}
         db.users.update_one(query, new_values)
 
-        return {'success': True, 'error': None, 'reply': reply}
+        return {'success': True, 'error': None, 'reply': reply, 'language': SESSION['language']}
     
     except Exception as e:
         print(e)
-        return {'success': False, 'error': e, 'reply': None}
+        return {'success': False, 'error': e, 'reply': None, 'language': SESSION['language']}
 
 
 if __name__ == '__main__':
