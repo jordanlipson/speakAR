@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, HashRouter, Route, Routes, Link } from "react-router-dom";
-import { Landing, SignUp, SignIn, SelectLevel, ArPage } from "./components";
+import { Landing, SignUp, SignIn, SelectLevel, Home, ArPage } from "./pages";
 // import "./components/App.css"
 import GlobalStyle from "./globalStyles";
 
@@ -15,6 +15,7 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/selectlevel" element={<SelectLevel />} />
           <Route path="/arPage" element={<ArPage />} />
+          <Route path="/home" element={<Home />} />
         </Routes>
       </Router>
     </div>
