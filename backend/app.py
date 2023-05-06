@@ -133,23 +133,35 @@ def chat():
         conversation = existing_user['conversation']
         print(conversation)
 
-        # example_str = f'''speakAR: Hi, how are you today?
-        #                         {SESSION['username']}: I am good. I am just very tired.
-        #                         speakAR: That's too bad. Why are you tired?
-        #                         {SESSION['username']}: I had 6 hours of class today.
-        #                         speakAR: 6 hours is a long time! What classes did you have?
-        #                         {SESSION['username']}: I had Computer Science, Math and English.
-        #                         speakAR: What did you learn in those classes?
-        #                         '''
+        if SESSION['language'] == 'English':
+            example_str = f'''speakAR: Hi, how are you today?
+                                    {SESSION['username']}: I am good. I am just very tired.
+                                    speakAR: That's too bad. Why are you tired?
+                                    {SESSION['username']}: I had 6 hours of class today.
+                                    speakAR: 6 hours is a long time! What classes did you have?
+                                    {SESSION['username']}: I had Computer Science, Math and English.
+                                    speakAR: What did you learn in those classes?
+                                    '''
 
-        example_str = f'''speakAR: Bonjour, comment ca-va aujourd'hui?
-                                {SESSION['username']}: Ca va bien, mais je suis un peu fatigue.
-                                speakAR: Pourquoi etez vous fatigue?
-                                {SESSION['username']}: J'ai eu 6 heueres de classe aujourd'hui.
-                                speakAR: 6 heueres de classe est une longue temps! Quel classes aviez-vous?
-                                {SESSION['username']}: J'ai eu la classe de science d'ordinateurs et le francais.
-                                speakAR: Quel choses avez-vous apprendi?
-                                '''
+        elif SESSION['language'] == 'French':
+            example_str = f'''speakAR: Bonjour, comment ca-va aujourd'hui?
+                                    {SESSION['username']}: Ca va bien, mais je suis un peu fatigue.
+                                    speakAR: Pourquoi etez vous fatigue?
+                                    {SESSION['username']}: J'ai eu 6 heueres de classe aujourd'hui.
+                                    speakAR: 6 heueres de classe est une longue temps! Quel classes aviez-vous?
+                                    {SESSION['username']}: J'ai eu la classe de science d'ordinateurs et le francais.
+                                    speakAR: Quel choses avez-vous apprendi?
+                                    '''
+        
+        else:
+            example_str = f'''speakAR: Hola, como estas hoy?
+                                    {SESSION['username']}: Estoy bien, pero estoy un poco cansado.
+                                    speakAR: Por que estas cansado?
+                                    {SESSION['username']}: Hoy tuve 6 horas de clase.
+                                    speakAR: ¡6 horas de clase es mucho tiempo! ¿Qué clases tenías?
+                                    {SESSION['username']}: Tenía clase de informática y clase de español.
+                                    speakAR: ¿Qué aprendiste?
+                                    '''
 
         prompt=f'''<<DESCRIPTION>>
                     In this chat, a helpful and patient person called speakAR holds a normal conversation in {SESSION['language']} with 
@@ -186,9 +198,7 @@ def chat():
         print(e)
         return {'success': False, 'error': e, 'reply': None, 'language': SESSION['language']}
 
-@app.route('/lang', methods=['GET'])
-def retLang():
-    return SESSION['language']
+
 
 def store_error(msg):
     prompt = f'''<<DESCRIPTION>>
@@ -215,7 +225,7 @@ def store_error(msg):
     existing_user = db.users.find_one({'username': SESSION['username']})
     prevErrors = existing_user['errors']
 
-    if msg != response[0][:].strip():
+    if msg != response[0][:]:
         query = {"username": SESSION['username']}
         prevErrors[str(existing_user['numErrors'])] = {"original": msg, "updated": response[0][:]}
 
