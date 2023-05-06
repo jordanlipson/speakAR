@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, HashRouter, Route, Routes, Link } from "react-router-dom";
-import { Landing, SignUp, SignIn, SelectLevel } from "./components";
+import { Landing, SignUp, SignIn, SelectLevel } from "./pages";
 // import "./components/App.css"
 import GlobalStyle from "./globalStyles";
 
