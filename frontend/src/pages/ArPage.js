@@ -63,14 +63,17 @@ const ArPage = () => {
             headers: headersList
         });
 
-        let data = await response.text();
+        let data = await response.json();
         console.log(data);
-        if (data[0] === "<"){
+        if (data.reply[0] === "<"){
             return;
         }
 
         const speech = new SpeechSynthesisUtterance();
-        speech.text = data;
+        speech.text = data.reply;
+        if (data.language === "French"){
+            speech.lang = 'fr-FR';
+        }
         speech.onend = () => {
             setIsListening(true); // Turn on the microphone again after speaking is done
         };

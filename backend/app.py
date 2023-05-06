@@ -5,7 +5,7 @@ from flask_cors import CORS
 from user import User
 import cohere
 
-SESSION = {'username': 'eugene', 'level': 'A1', 'language': 'French'}
+SESSION = {'username': 'ishan7', 'level': 'A1', 'language': 'English'}
 
 co = cohere.Client("qiqWWzNgpO0oJ5pzLu21ETOuC37beHi6ON0XaigM")
 app = Flask(__name__)
@@ -189,7 +189,6 @@ def chat():
 
 
 def store_error(msg):
-
     prompt = f'''<<DESCRIPTION>>
                 This is a {SESSION['language']} language grammar check generator that corrects a given text. If the text is already grammatically 
                 correct, the grammar checker just returns the original message. 
@@ -202,7 +201,6 @@ def store_error(msg):
                 ------
                 Sample: {msg}
                 Correction:'''
-    
 
     response = co.generate(model='base',
                            prompt=prompt,
@@ -212,12 +210,21 @@ def store_error(msg):
                            frequency_penalty=0,
                            presence_penalty=0,
                            stop_sequences=["--"])
-    return response[0][:]
+    existing_user = db.users.find_one({'username': SESSION['username']})
+    prevErrors = existing_user['errors']
 
+    if msg != response[0][:]:
+        query = {"username": SESSION['username']}
+        prevErrors[str(existing_user['numErrors'])] = {"original": msg, "updated": response[0][:]}
+
+        new_values = {"$set": {"errors": prevErrors }}
+        db.users.update_one(query, new_values)
+        new_values = {"$set": {"numErrors": existing_user['numErrors'] + 1 }}
+        db.users.update_one(query, new_values)
 
 if __name__ == '__main__':
-    # app.run()
-    r = input('Enter: ')
-    while r != 'stop':
-        print(store_error(r))
-        r = input('Enter: ')
+    app.run()
+    # r = input('Enter: ')
+    # while r != 'stop':
+    #     print(store_error(r))
+    #     r = input('Enter: ')
