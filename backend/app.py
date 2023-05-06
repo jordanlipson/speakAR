@@ -186,7 +186,9 @@ def chat():
         print(e)
         return {'success': False, 'error': e, 'reply': None, 'language': SESSION['language']}
 
-
+@app.route('/lang', methods=['GET'])
+def retLang():
+    return SESSION['language']
 
 def store_error(msg):
     prompt = f'''<<DESCRIPTION>>
@@ -213,7 +215,7 @@ def store_error(msg):
     existing_user = db.users.find_one({'username': SESSION['username']})
     prevErrors = existing_user['errors']
 
-    if msg != response[0][:]:
+    if msg != response[0][:].strip():
         query = {"username": SESSION['username']}
         prevErrors[str(existing_user['numErrors'])] = {"original": msg, "updated": response[0][:]}
 
