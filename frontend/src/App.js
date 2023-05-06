@@ -14,7 +14,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/selectlevel" element={<SelectLevel />} />
-          <Route path="/arPage" element={<ArPage />} />
+          <Route path="/arpage" element={<ArPage />} />
           <Route path="/home" element={<Home />} />
           <Route path="/chooselang" element={<ChooseLang />} />
         </Routes>
