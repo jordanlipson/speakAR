@@ -1,9 +1,11 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from flask import Flask, request
+from flask_cors import CORS
 from user import User
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 # CHANGE THE USER AND PASS
 uri = "mongodb+srv://methacks:methacks@cluster0.hpi1zla.mongodb.net/?retryWrites=true&w=majority"
