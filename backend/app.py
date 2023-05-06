@@ -40,6 +40,23 @@ def register():
 
     return 'Registration successful'
 
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+
+    # Check if the username already exists in the database
+    existing_user = db.users.find_one({'username': username})
+    print(existing_user)
+    if existing_user is None:
+        return 'User DNE'
+    
+    if existing_user['password'] == password:
+        return 'Login success'
+    
+    return 'Incorrect pass'
+
 
 if __name__ == '__main__':
     app.run()
