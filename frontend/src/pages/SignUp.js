@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 import {
     useState
@@ -68,6 +69,8 @@ const Input = styled.input`
 `
 
 const SignUp = () => {
+    const navigate = useNavigate();
+
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [returnVal, setReturnVal] = useState("");
@@ -100,6 +103,8 @@ const SignUp = () => {
 
         let data = await response.text();
         setReturnVal(data);
+
+        navigate("/chooselang")
     }
 
     return (
