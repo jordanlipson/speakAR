@@ -3,7 +3,11 @@ from pymongo.server_api import ServerApi
 from flask import Flask, request
 from flask_cors import CORS
 from user import User
+import cohere
 
+SESSION = {'username': 'john', 'level': 'A1'}
+
+co = cohere.Client("qiqWWzNgpO0oJ5pzLu21ETOuC37beHi6ON0XaigM")
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
@@ -23,7 +27,7 @@ except Exception as e:
 def index():
     return "server running"
 
-@app.route('/register', methods=['POST'])
+@app.route('/register/', methods=['POST'])
 def register():
     data = request.get_json()
     username = data.get('username')
@@ -42,7 +46,7 @@ def register():
 
     return 'Registration successful'
 
-@app.route('/login', methods=['POST'])
+@app.route('/login/', methods=['POST'])
 def login():
     data = request.get_json()
     username = data.get('username')
@@ -58,6 +62,22 @@ def login():
         return 'Login success'
     
     return 'Incorrect pass'
+
+@app.route('/chat/', methods=['POST'])
+def chat():
+
+    data = request.get_json()
+    message = data.get('message')
+
+    prompt = f"You are speakAR, a person who is having a conversation with someone who {SESSION['level']} level \
+        fluent in English. Respond to whatever they say, and make sure to keep the conversation \
+            going (by asking questions or making insightful comments).\
+                \
+                {SESSION['username']}: {message}\
+                speakAR:"
+
+    response = co.generate(prompt)
+    return response[0][:]
 
 
 if __name__ == '__main__':
