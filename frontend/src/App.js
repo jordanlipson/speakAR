@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, HashRouter, Route, Routes, Link } from "react-router-dom";
-import { Landing, SignUp, SignIn, SelectLevel, Home, ArPage } from "./pages";
+import { Landing, SignUp, SignIn, SelectLevel, Home, ArPage, ChooseLang } from "./pages";
 // import "./components/App.css"
 import GlobalStyle from "./globalStyles";
 
@@ -16,6 +16,7 @@ function App() {
           <Route path="/selectlevel" element={<SelectLevel />} />
           <Route path="/arPage" element={<ArPage />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/chooselang" element={<ChooseLang />} />
         </Routes>
       </Router>
     </div>
