@@ -9,7 +9,13 @@ const ChooseLangContainer = styled.div`
     align-items: center;
     color: #fff;
     height: 100vh;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow-y: scroll;
 `;
+
 
 const LangHeader = styled.h1`
   font-size: 30px;
@@ -33,10 +39,10 @@ const LangButton = styled.button`
 const NextButton = styled.button`
     width: 150px;
     height: 40px;
-    border: none;
+    border: 2px solid white;
     border-radius: 38px;
-    background: white;
-    color: #394B60;
+    background: transparent;
+    color: #fff;
     font-size: 15px;
     font-weight: bold;
     margin-top: 4em;
