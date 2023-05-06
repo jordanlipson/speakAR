@@ -118,27 +118,20 @@ def chat():
         #                         speakAR: What did you learn in those classes?
         #                         '''
 
-        example_str = f'''user: Bonjour, comment allez-vous ?
-speakAR: Bonjour, je vais bien, merci. Comment ça va?
-user: Ça va bien, merci. Je voudrais pratiquer mon français.
-speakAR: Très bien. Quel est votre niveau de français ?
-user: Je suis un débutant en français.
-speakAR: C'est formidable que vous commenciez à apprendre une nouvelle langue. Qu'est-ce qui vous a motivé à apprendre le français ?
-user: J'ai toujours aimé la langue française et la culture française.
-speakAR: C'est génial. Que préférez-vous dans la culture française ?
-user: J'aime la nourriture française, les vins, les châteaux, la mode et les musées.
-speakAR: C'est vrai que la France est connue pour sa cuisine délicieuse et ses vins savoureux. Quel est votre plat français préféré ?
-user: Mon plat français préféré est la ratatouille.
-speakAR: Ah, j'adore la ratatouille aussi. Avez-vous visité la France auparavant ?
-user: Non, je n'ai jamais visité la France. Mais j'espère visiter la France un jour.
-speakAR: C'est une bonne idée de visiter la France pour améliorer votre français. Je suis sûr que vous aimerez la France. Qu'est-ce que vous voudriez faire si vous visitez la France ?
-user: J'aimerais visiter la Tour Eiffel, le Louvre et faire une dégustation de vin.
-speakAR: Ce sont de très bonnes idées. Vous aurez également la chance de pratiquer votre français en France. Avez-vous des questions ou des préoccupations concernant votre apprentissage du français ?
-user: Pas pour le moment, merci. C'était une conversation agréable.
-speakAR: Merci à vous aussi. Bonne chance pour votre apprentissage du français.'''
+        example_str = f'''speakAR: Bonjour, comment ca-va aujourd'hui?
+                                {SESSION['username']}: Ca va bien, mais je suis un peu fatigue.
+                                speakAR: Pourquoi etez vous fatigue?
+                                {SESSION['username']}: J'ai eu 6 heueres de classe aujourd'hui.
+                                speakAR: 6 heueres de classe est une longue temps! Quel classes aviez-vous?
+                                {SESSION['username']}: J'ai eu la classe de science d'ordinateurs et le francais.
+                                speakAR: Quel choses avez-vous apprendi?
+                                '''
 
         prompt=f'''<<DESCRIPTION>>
-                    In this chat, a helpful and patient person called speakAR holds a normal conversation with {SESSION['username']}, who is {SESSION['level']} level proficient in {SESSION['language']}.
+                    In this chat, a helpful and patient person called speakAR holds a normal conversation in {SESSION['language']} with 
+                    {SESSION['username']}, who is {SESSION['level']} level proficient in {SESSION['language']}. speakAR asks questions back to
+                    {SESSION['username']} and makes insightful comments to keep the conversation flowing. speakAR speaks only in {SESSION['language']} 
+                    using {SESSION['level']} level vocabulary. speakAR does not copy from the example conversation above.
                     <<CONVERSATION>>
                     {example_str}
                     <<CONVERSATION>>
@@ -146,24 +139,14 @@ speakAR: Merci à vous aussi. Bonne chance pour votre apprentissage du français
                     {SESSION['username']}: {message}
                     speakAR:'''
 
-        # prompt = f"You are speakAR, a person who is having a conversation in English with {SESSION['username']}, who is {SESSION['level']} level fluent in English.\
-        # Respond to their message, and make sure to keep the conversation going by asking questions to CONTINUE the conversation.\
-        # Inlcude ONLY your complete reply in the returned message and not other additional text such as '{SESSION['username']}:'. In other words, do not predict what the user\
-        # will say next, and DO NOT reply with an empty string. Make sure the your response ends properly and that you ASK A QUESTION that is complete. Remember, you are speakAR. Here is a sample conversation:\n\
-        # {SESSION['username']}: I love apples.\n\
-        # speakAR (you): Really? I do to. What is your favourite kind?\n\
-        # ------------------------------------------------\
-        # {conversation_str}\n\
-        # ------------------------------------------------\
-        # {SESSION['username']}: {message}\n\
-        # speakAR (you):"
 
         response = co.generate(
-            model='command-light',
+            model='command-nightly',
             prompt=prompt,
             temperature=1,
             max_tokens=1000)
         
+
         reply = response[0][:].lstrip()
         while '\n' in reply:
             reply = reply[:reply.index('\n')]
