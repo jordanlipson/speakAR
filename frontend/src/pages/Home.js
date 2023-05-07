@@ -50,6 +50,10 @@ const Menu = styled.div`
     flex-direction: column;
 `;
 
+const MenuItems = styled.div`
+    margin-top: 120px;
+`
+
 const MenuItem = styled.div`
     color: #394B60;
     margin-right: 2em;
@@ -81,24 +85,25 @@ const HomeHeader = styled.h1`
     width: 300px;
     font-size: 35px;
     font-weight: bold;
-    margin-top: 150px;
+    margin-top: 250px;
     margin-left: 30px;
     color: #fff;
 `;
 
 const HomeSubheader = styled.p`
-  font-size: 18px;
-  margin: 55% 5% 5% -70%;
-  width: 90%;
-  text-align: left;
-  color: #fff;
+    font-size: 18px;
+    margin: 55% 5% 5% -70%;
+    margin-top: 320px;
+    width: 90%;
+    text-align: left;
+    color: #fff;
 `;
 
 
 const TalkButton = styled.button`
     z-index: 1; 
     position: absolute;
-    bottom: 55px;
+    bottom: 200px;
     left: 50%;
     transform: translateX(-50%);
     width: 170px;
@@ -131,10 +136,12 @@ const Home = () => {
             </Hamburger>
             <Menu open={menuOpen}>
                 <CloseButton onClick={toggleMenu}>X</CloseButton>
-                <MenuItem onClick={toggleMenu}>Home</MenuItem>
-                <MenuItem onClick={() => navigate("/mistakes")}>Mistakes</MenuItem>
+                <MenuItems>
+                    <MenuItem onClick={toggleMenu}>Home</MenuItem>
+                    <MenuItem onClick={() => navigate("/mistakes")}>Mistakes</MenuItem>
+                </MenuItems>
             </Menu>
-            <HomeHeader>Hello, username</HomeHeader>
+            <HomeHeader>Hi there!</HomeHeader>
             <HomeSubheader>You can communicate in situations and use simple language to communicate feelings, opinions, plans and experiences.</HomeSubheader>
             <TalkButton onClick={() => navigate("/arpage")}>START TALKING</TalkButton>
         </HomeContainer>

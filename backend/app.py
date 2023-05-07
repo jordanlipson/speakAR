@@ -1,6 +1,6 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from user import User
 import cohere
@@ -191,6 +191,8 @@ def chat():
         query = {"username": SESSION['username']}
         new_values = {"$set": {"conversation": conversation }}
         db.users.update_one(query, new_values)
+        new_values = {"$set": {"numConversations": existing_user['numConversations']+1 }}
+        db.users.update_one(query, new_values)
 
         return {'success': True, 'error': None, 'reply': reply, 'language': SESSION['language']}
     
@@ -223,9 +225,9 @@ def store_error(msg):
     existing_user = db.users.find_one({'username': SESSION['username']})
     prevErrors = existing_user['errors']
 
-    if msg != response[0][:].strip():
+    if msg != response[0][:]:
         query = {"username": SESSION['username']}
-        prevErrors[str(existing_user['numErrors'])] = {"original": msg, "updated": response[0][:].strip()}
+        prevErrors[str(existing_user['numErrors'])] = {"original": msg, "updated": response[0][:]}
 
         new_values = {"$set": {"errors": prevErrors }}
         db.users.update_one(query, new_values)
@@ -235,7 +237,7 @@ def store_error(msg):
 @app.route('/getUser/', methods=['GET'])
 def getUser():
     existing_user = db.users.find_one({'username': SESSION['username']})
-    return existing_user['errors']
+    return jsonify({'vals': list(existing_user['errors'].values())})
 
 if __name__ == '__main__':
     app.run()
