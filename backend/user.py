@@ -7,3 +7,4 @@ class User:
         self.conversation = ""
         self.numErrors = 0
         self.errors = {}
+        self.numConversations = 0

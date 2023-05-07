@@ -5,7 +5,7 @@ from flask_cors import CORS
 from user import User
 import cohere
 
-SESSION = {'username': 'ishan7', 'level': 'A1', 'language': 'English'}
+SESSION = {'username': 'ishan', 'level': 'A1', 'language': 'English'}
 
 co = cohere.Client("ikferqh9c82HkjPxLLEGsTqUfR9MVU7gk7oClTsi")
 app = Flask(__name__)
@@ -190,6 +190,8 @@ def chat():
         conversation += f"{SESSION['username']}: {message}\nspeakAR: {reply}\n"
         query = {"username": SESSION['username']}
         new_values = {"$set": {"conversation": conversation }}
+        db.users.update_one(query, new_values)
+        new_values = {"$set": {"numConversations": existing_user['numConversations']+1 }}
         db.users.update_one(query, new_values)
 
         return {'success': True, 'error': None, 'reply': reply, 'language': SESSION['language']}
