@@ -1,18 +1,23 @@
+
+from dotenv import load_dotenv
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from user import User
 import cohere
+import os
 
-SESSION = {'username': 'ishan', 'level': 'A1', 'language': 'English'}
+load_dotenv()
 
-co = cohere.Client("ikferqh9c82HkjPxLLEGsTqUfR9MVU7gk7oClTsi")
+SESSION = {'username': '', 'level': '', 'language': ''}
+
+co = cohere.Client(os.environ["COHERE_KEY"])
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 # CHANGE THE USER AND PASS
-uri = "mongodb+srv://methacks:methacks@cluster0.hpi1zla.mongodb.net/?retryWrites=true&w=majority"
+uri = os.environ["DATABASE_URL"]
 # Create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'))
 # Send a ping to confirm a successful connection
