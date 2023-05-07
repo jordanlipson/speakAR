@@ -88,10 +88,9 @@ const HomeHeader = styled.h1`
 
 const HomeSubheader = styled.p`
   font-size: 18px;
-  margin: 0 auto;
+  margin: 75% 5% 5% -75%;
   width: 90%;
   text-align: center;
-  margin-top: 32px;
   color: #fff;
 `;
 

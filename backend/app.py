@@ -198,8 +198,6 @@ def chat():
         print(e)
         return {'success': False, 'error': e, 'reply': None, 'language': SESSION['language']}
 
-
-
 def store_error(msg):
     prompt = f'''<<DESCRIPTION>>
                 This is a {SESSION['language']} language grammar check generator that corrects a given text. If the text is already grammatically 
@@ -233,6 +231,11 @@ def store_error(msg):
         db.users.update_one(query, new_values)
         new_values = {"$set": {"numErrors": existing_user['numErrors'] + 1 }}
         db.users.update_one(query, new_values)
+
+@app.route('/getUser/', methods=['GET'])
+def getUser():
+    existing_user = db.users.find_one({'username': SESSION['username']})
+    return existing_user['errors']
 
 if __name__ == '__main__':
     app.run()
