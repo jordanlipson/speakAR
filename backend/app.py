@@ -201,28 +201,31 @@ def chat():
         return {'success': False, 'error': e, 'reply': None, 'language': SESSION['language']}
 
 def store_error(msg):
-    prompt = f'''Your task is to pick up on any significant grammar errors. Below I have a list of the different types of grammar mistakes, along with examples. Analyze the prompt and determine whether it breaks any of these grammar rules. If it does, output a one-sentence answer explaining clearly what the mistake was. The user should understand what the specific grammar mistake made was. If there is no grammar mistake, output this exact answer: "No.". If there is a grammar mistake, output this exact answer: "Yes".
-Subject-verb agreement: "The dogs runs" instead of "The dogs run"
-Pronoun agreement: "He gave the book to her and I" instead of "He gave the book to her and me"
-Incorrect word form: "I seen it" instead of "I saw it"
-Incorrect verb tense: "I have went" instead of "I have gone"
-Incorrect preposition use: "I am going at the store" instead of "I am going to the store"
-Run-on sentence: "I like pizza it is my favorite food" instead of "I like pizza. It is my favorite food."
-Fragment: "Eating pizza." instead of "I am eating pizza."
+    prompt = f'''<<DESCRIPTION>>
+                This is a {SESSION['language']} language grammar check generator that corrects a given text. If the text is already grammatically 
+                correct, the grammar checker just returns the original message. 
+                <<ENGLISH EXAMPLE>>
+                Sample: I is Bob.
+                Correction: I am Bob.
+                <<ENGLISH EXAMPLE>>
+                Sample: I am Bob.
+                Correction: I am Bob.
+                ------
+                Sample: {msg}
+                Correction:'''
 
-Here is the prompt to evaluate: {msg}'''
-
-    response = co.generate(model='command-xlarge-nightly',
+    response = co.generate(model='base',
                            prompt=prompt,
-                           max_tokens=12,
-                           temperature=0,
+                           temperature=0.3,
+                           p=0.75,
                            k=0,
-                           stop_sequences=["--", "\n"]
-                           )
+                           frequency_penalty=0,
+                           presence_penalty=0,
+                           stop_sequences=["--"])
     existing_user = db.users.find_one({'username': SESSION['username']})
     prevErrors = existing_user['errors']
 
-    if str(response[0][:]).lower() == "no":
+    if msg != response[0][:]:
         query = {"username": SESSION['username']}
         prevErrors[str(existing_user['numErrors'])] = {"original": msg, "updated": response[0][:]}
 
