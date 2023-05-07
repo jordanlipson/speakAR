@@ -50,6 +50,10 @@ const Menu = styled.div`
     flex-direction: column;
 `;
 
+const MenuItems = styled.div`
+    margin-top: 120px;
+`
+
 const MenuItem = styled.div`
     color: #394B60;
     margin-right: 2em;
@@ -131,10 +135,12 @@ const Home = () => {
             </Hamburger>
             <Menu open={menuOpen}>
                 <CloseButton onClick={toggleMenu}>X</CloseButton>
-                <MenuItem onClick={toggleMenu}>Home</MenuItem>
-                <MenuItem onClick={() => navigate("/mistakes")}>Mistakes</MenuItem>
+                <MenuItems>
+                    <MenuItem onClick={toggleMenu}>Home</MenuItem>
+                    <MenuItem onClick={() => navigate("/mistakes")}>Mistakes</MenuItem>
+                </MenuItems>
             </Menu>
-            <HomeHeader>Hello, username</HomeHeader>
+            <HomeHeader>Hi there!</HomeHeader>
             <HomeSubheader>You can communicate in situations and use simple language to communicate feelings, opinions, plans and experiences.</HomeSubheader>
             <TalkButton onClick={() => navigate("/arpage")}>START TALKING</TalkButton>
         </HomeContainer>
