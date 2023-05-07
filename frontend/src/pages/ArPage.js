@@ -31,32 +31,34 @@ const Caption = styled(Subheading)`
 `;
 
 const Caption2 = styled(Subheading)`
-  position: absolute;
-  bottom: 180px;
-  width: 350px;
-  left: 50%; /* increased left value */
-  transform: translateX(-50%);
-  text-shadow: 5px 3px 5px rgba(0, 0, 0, 1);
+position: absolute;
+bottom: 180px;
+width: 350px;
+left: 50%; /* increased left value */
+transform: translateX(-50%);
+text-shadow: 5px 3px 5px rgba(0, 0, 0, 1);
   font-weight: bold;
-`;
-
-
-const ArPage = () => {
-    const {
-        transcript,
-        listening,
-        resetTranscript,
-        browserSupportsSpeechRecognition
-    } = useSpeechRecognition();
-
-    
-    const [convoStarted, setconvoStarted] = useState(false);
-    const [silenceTimeout, setSilenceTimeout] = useState(null);
-    const [micIcon, setMicIcon] = useState(micOff); // default mic off icon
-    const [responseText, setResponseText] = useState(""); // state for outputted text data
-    const [caption, setCaption] = useState("")
-
+  `;
+  
+  
+  const ArPage = () => {
+      const {
+          transcript,
+          listening,
+          resetTranscript,
+          browserSupportsSpeechRecognition
+        } = useSpeechRecognition();
+        
+        
+        const [convoStarted, setconvoStarted] = useState(false);
+        const [silenceTimeout, setSilenceTimeout] = useState(null);
+        const [micIcon, setMicIcon] = useState(micOff); // default mic off icon
+        const [responseText, setResponseText] = useState(""); // state for outputted text data
+        const [caption, setCaption] = useState("")
+        const echo3dAPIKey = process.env.REACT_APP_ECHO3D_API_KEY;
+        
     useEffect(() => {
+        console.log(echo3dAPIKey);
         if (!listening) {
             setMicIcon(micOff);
         } else {
@@ -122,12 +124,13 @@ const ArPage = () => {
     
     function handleStart(){
         setconvoStarted(true);
-        SpeechRecognition.startListening();
+        SpeechRecognition.startListening({language: "fr-FR"});
     }
+
 
     return (
         <div style={{ position: "relative" }}>
-          <iframe src="https://api.echo3d.co/webar?key=floral-fire-5423&entry=f3b4b0a5-b39c-4001-98ea-31f8d6952e00" width="100%" height="844" title="echoAR WebAR iframe element"></iframe>
+          <iframe src={`https://api.echo3d.co/webar?key=${echo3dAPIKey}&entry=b7b7cd79-0bf5-4fdf-8dd6-ed9bd1ceb882`} width="100%" height="844" title="echoAR WebAR iframe element"></iframe>
           <MicButton onClick={handleStart} src={micIcon} alt="microphone" />
           <Caption>You: {transcript}</Caption>
           <Caption2>{caption}</Caption2>
