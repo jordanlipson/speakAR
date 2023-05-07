@@ -41,3 +41,10 @@
     transform: rotate(360deg);
   }
 } */
+
+svg {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+}

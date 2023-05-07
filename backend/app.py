@@ -5,7 +5,7 @@ from flask_cors import CORS
 from user import User
 import cohere
 
-SESSION = {'username': 'ishan7', 'level': 'A1', 'language': 'English'}
+SESSION = {'username': 'ishan', 'level': 'A1', 'language': 'English'}
 
 co = cohere.Client("ikferqh9c82HkjPxLLEGsTqUfR9MVU7gk7oClTsi")
 app = Flask(__name__)
@@ -143,7 +143,7 @@ def chat():
                                     speakAR: What did you learn in those classes?
                                     '''
 
-        elif SESSION['language'] == 'French':
+        elif SESSION['language'] == 'Français':
             example_str = f'''speakAR: Bonjour, comment ca-va aujourd'hui?
                                     Sample User: Ca va bien, mais je suis un peu fatigue.
                                     speakAR: Pourquoi etez vous fatigue?
