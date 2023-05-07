@@ -85,24 +85,25 @@ const HomeHeader = styled.h1`
     width: 300px;
     font-size: 35px;
     font-weight: bold;
-    margin-top: 150px;
+    margin-top: 250px;
     margin-left: 30px;
     color: #fff;
 `;
 
 const HomeSubheader = styled.p`
-  font-size: 18px;
-  margin: 55% 5% 5% -70%;
-  width: 90%;
-  text-align: left;
-  color: #fff;
+    font-size: 18px;
+    margin: 55% 5% 5% -70%;
+    margin-top: 320px;
+    width: 90%;
+    text-align: left;
+    color: #fff;
 `;
 
 
 const TalkButton = styled.button`
     z-index: 1; 
     position: absolute;
-    bottom: 55px;
+    bottom: 200px;
     left: 50%;
     transform: translateX(-50%);
     width: 170px;
