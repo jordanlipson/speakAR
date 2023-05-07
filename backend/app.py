@@ -223,9 +223,9 @@ def store_error(msg):
     existing_user = db.users.find_one({'username': SESSION['username']})
     prevErrors = existing_user['errors']
 
-    if msg != response[0][:]:
+    if msg != response[0][:].strip():
         query = {"username": SESSION['username']}
-        prevErrors[str(existing_user['numErrors'])] = {"original": msg, "updated": response[0][:]}
+        prevErrors[str(existing_user['numErrors'])] = {"original": msg, "updated": response[0][:].strip()}
 
         new_values = {"$set": {"errors": prevErrors }}
         db.users.update_one(query, new_values)
