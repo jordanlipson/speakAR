@@ -7,7 +7,7 @@ import cohere
 
 SESSION = {'username': 'ishan7', 'level': 'A1', 'language': 'English'}
 
-co = cohere.Client("qiqWWzNgpO0oJ5pzLu21ETOuC37beHi6ON0XaigM")
+co = cohere.Client("ikferqh9c82HkjPxLLEGsTqUfR9MVU7gk7oClTsi")
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
@@ -135,31 +135,31 @@ def chat():
 
         if SESSION['language'] == 'English':
             example_str = f'''speakAR: Hi, how are you today?
-                                    {SESSION['username']}: I am good. I am just very tired.
+                                    Sample User: I am good. I am just very tired.
                                     speakAR: That's too bad. Why are you tired?
-                                    {SESSION['username']}: I had 6 hours of class today.
+                                    Sample User: I had 6 hours of class today.
                                     speakAR: 6 hours is a long time! What classes did you have?
-                                    {SESSION['username']}: I had Computer Science, Math and English.
+                                    Sample User: I had Computer Science, Math and English.
                                     speakAR: What did you learn in those classes?
                                     '''
 
         elif SESSION['language'] == 'French':
             example_str = f'''speakAR: Bonjour, comment ca-va aujourd'hui?
-                                    {SESSION['username']}: Ca va bien, mais je suis un peu fatigue.
+                                    Sample User: Ca va bien, mais je suis un peu fatigue.
                                     speakAR: Pourquoi etez vous fatigue?
-                                    {SESSION['username']}: J'ai eu 6 heueres de classe aujourd'hui.
+                                    Sample User: J'ai eu 6 heueres de classe aujourd'hui.
                                     speakAR: 6 heueres de classe est une longue temps! Quel classes aviez-vous?
-                                    {SESSION['username']}: J'ai eu la classe de science d'ordinateurs et le francais.
+                                    Sample User: J'ai eu la classe de science d'ordinateurs et le francais.
                                     speakAR: Quel choses avez-vous apprendi?
                                     '''
         
         else:
             example_str = f'''speakAR: Hola, como estas hoy?
-                                    {SESSION['username']}: Estoy bien, pero estoy un poco cansado.
+                                    Sample User: Estoy bien, pero estoy un poco cansado.
                                     speakAR: Por que estas cansado?
-                                    {SESSION['username']}: Hoy tuve 6 horas de clase.
+                                    Sample User: Hoy tuve 6 horas de clase.
                                     speakAR: ¡6 horas de clase es mucho tiempo! ¿Qué clases tenías?
-                                    {SESSION['username']}: Tenía clase de informática y clase de español.
+                                    Sample User: Tenía clase de informática y clase de español.
                                     speakAR: ¿Qué aprendiste?
                                     '''
 
@@ -167,10 +167,10 @@ def chat():
                     In this chat, a helpful and patient person called speakAR holds a normal conversation in {SESSION['language']} with 
                     {SESSION['username']}, who is {SESSION['level']} level proficient in {SESSION['language']}. speakAR asks questions back to
                     {SESSION['username']} and makes insightful comments to keep the conversation flowing. speakAR speaks only in {SESSION['language']} 
-                    using {SESSION['level']} level vocabulary. speakAR does not copy from the example conversation above.
-                    <<CONVERSATION>>
+                    using {SESSION['level']} level vocabulary. speakAR does not copy from <<SAMPLE CONVERSATION>> below.
+                    <<SAMPLE CONVERSATION>>
                     {example_str}
-                    <<CONVERSATION>>
+                    <<ACTUAL CONVERSATION>>
                     {conversation}
                     {SESSION['username']}: {message}
                     speakAR:'''
