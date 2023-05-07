@@ -1,6 +1,6 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from user import User
 import cohere
@@ -237,7 +237,7 @@ def store_error(msg):
 @app.route('/getUser/', methods=['GET'])
 def getUser():
     existing_user = db.users.find_one({'username': SESSION['username']})
-    return list(existing_user['errors'].values())
+    return jsonify({'vals': list(existing_user['errors'].values())})
 
 if __name__ == '__main__':
     app.run()
